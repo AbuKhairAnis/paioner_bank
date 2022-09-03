@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paioner Bank Project</title>
+    <link rel="stylesheet" href="Css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Css/style.css">
+</head>
+
+<body>
+    <div id="login-area">
+        <h1 class="text-center">Welcome to Paioner Bank</h1>
+        <div class="submit-area">
+            <h4>Login</h4>
+            <br>
+            <input type="text" class="form-control" placeholder="Email">
+            <br>
+            <input type="password" class="form-control" placeholder="Password">
+            <br>
+            <button id="login" class="btn btn-success">Enter</button>
+        </div>
+    </div>
+
+    <div id="transaction-area">
+        <div class="row">
+            <div class="col-md-4 ">
+                <div class="deposit status">
+                    <h5>Deposit</h5>
+                    <h2>$ <span id="currentDeposit">00</span></h2>
+                </div>
+            </div>
+            <div class="col-md-4 ">
+                <div class="withdraw status">
+                    <h5>Withdraw</h5>
+                    <h2>$ <span id="currentWithdraw">00</span></h2>
+                </div>
+            </div>
+            <div class="col-md-4 ">
+                <div class="balance status">
+                    <h5>Balance</h5>
+                    <h2>$ <span id="currentBalance">1240</span></h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="submit-area">
+                    <h4>Deposit</h4>
+                    <input id="depositAmount" type="text" class="form-control" placeholder="$ amount you want to deposit">
+                    <br>
+                    <button id="addDeposit" class="btn btn-success">Deposit</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="submit-area">
+                    <h4>Withdraw</h4>
+                    <input type="text" id="withdrawamount" class="form-control" placeholder="$ amount you want to withdraw">
+                    <br>
+                    <button id="withradw" class="btn btn-success">Withdraw</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        // login button event handler
+        document.getElementById('login').addEventListener('click', function() {
+            document.getElementById('login-area').style.display = "none";
+            document.getElementById('transaction-area').style.display = "block";
+        });
+        // deposit button event handler
+        document.getElementById('addDeposit').addEventListener('click', function() {
+            const depositNumber = getInputNumber("depositAmount");
+            if (depositNumber < 0) {
+                alert(" Deposit Number Can't be Nagetive");
+                document.getElementById('depositAmount').value = "";
+            } else {
+                updateSpanText("currentDeposit", depositNumber)
+                updateSpanText("currentBalance", depositNumber)
+                document.getElementById('depositAmount').value = "";
+            }
+        })
+
+        function updateSpanText(id, Number) {
+            const currentNumber = parseFloat(document.getElementById(id).innerText);
+            const totalAmount = currentNumber + Number;
+            document.getElementById(id).innerText = totalAmount;
+        }
+        // Withdraw Button event handler
+        document.getElementById("withradw").addEventListener('click', function() {
+            const withdraw = getInputNumber("withdrawamount");
+            const currentBalace = parseFloat(document.getElementById("currentBalance").innerText);
+
+            if (withdraw < 0 ) {
+                return alert("Withdraw is Not Nagetive");
+                document.getElementById("withdrawamount").value = "";
+            }
+            if (withdraw > currentBalace) {
+                alert("Not Enught Amount");
+		document.getElementById("withdrawamount").value = "";
+            } else {
+                updateSpanText("currentWithdraw", withdraw)
+                updateSpanText("currentBalance", -1 * withdraw)
+                document.getElementById("withdrawamount").value = "";
+            }
+
+        })
+        // Get Input Number
+        function getInputNumber(id) {
+            const input = parseFloat(document.getElementById(id).value);
+            return input
+
+        };
+
+    </script>
+
+</body>
+
+</html>
